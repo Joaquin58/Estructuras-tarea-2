@@ -1,0 +1,44 @@
+\textbf{7. Demuestra que la función del complemento regresa la negación de la fórmula.}
+
+Esto es, que $comp(E)=\neg E$\\
+\textbf{Proposición.} Sea $comp$ la siguiente función recursiva:
+% \begin{alignat*}{2}
+% 	comp(\top)      & = \bot                  & \quad & (i)   \\
+% 	comp(\bot)      & = \top                  & \quad & (ii)  \\
+% 	comp(p)         & = \neg p                & \quad & (iii) \\
+% 	comp(\neg Q)    & = \neg comp(Q)          & \quad & (iv)  \\
+% 	comp(P \land Q) & = comp(P) \land comp(Q) & \quad & (v)   \\
+% 	comp(P \lor Q)  & = comp(P)\lor comp(Q)   & \quad & (vi)  \\
+% \end{alignat*}
+\begin{enumerate}
+	\item $comp(\top) = \bot,\;comp(\bot) = \top,\;comp(p) = \neg p$ son atómicas.
+	\item Si P y Q son fórmulas: $comp(\neg Q) = \neg comp(Q),\;comp(P \land Q) = comp(P) \land comp(Q),\;comp(P \lor Q) = comp(P)\lor comp(Q)$
+\end{enumerate}
+\indent Entonces se cumple que $comp(E)=\neg E$
+\noindent\\
+\textbf{Demostración:} Por inducción estructural sobre las fórmulas.\\
+\indent
+\textbf{Caos base.} Cuando $E$ es atómica tal que $E=p$ donde $p$ es una proposición ó $E=\top$ ó $E=\bot$
+% \vspace{-20px}
+\begin{multicols}{3}
+	\begin{alignat*}{2}
+		E=p\therefore                               \\
+		comp(E) & = comp(p)                         \\
+		        & =\neg p   & \quad & \text{Por}(1) \\
+	\end{alignat*}
+
+	\begin{alignat*}{2}
+		E=\top\therefore                               \\
+		comp(E) & = comp(\top)                         \\
+		        & =\bot        & \quad & \text{Por}(1) \\
+	\end{alignat*}
+
+	\begin{alignat*}{2}
+		E=\bot\therefore                               \\
+		comp(E) & = comp(\bot)                         \\
+		        & =\top        & \quad & \text{Por}(1) \\
+	\end{alignat*}
+\end{multicols}
+
+\textbf{Hipótesis de inducción:} Supongamos que $comp(P)=\neg P$ y $comp(Q)=\neg Q$\\
+\textbf{Paso inductivo:}
