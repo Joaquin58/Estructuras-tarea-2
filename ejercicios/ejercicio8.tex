@@ -1,0 +1,52 @@
+\textbf{8. Demostra que a partir de los conjuntos de proposiciones dados $\Gamma$, si las siguientes proposiciones son o no consecuencias lógicas utilizando interpretaciones.}
+\begin{multicols}{2}
+	\begin{enumerate}[label=\alph*)]
+		\item $\Gamma = \{p\land q, r\lor q\}$, proposición: $p \land q\lor r$
+		\item $\Gamma = \{p\leftrightarrow q,p\rightarrow \neg r,r\rightarrow s\}$, proposición: $q\rightarrow s$
+		\item $\Gamma = \{p\leftrightarrow q,p\rightarrow \neg r,r\rightarrow s\}$, proposición: $\neg (p\land r)$
+		\item $\Gamma = \{p\lor q, q\rightarrow r, \neg r \lor s\}$, proposición: $(p\lor q)\rightarrow s$
+		\item $\Gamma = \{p\land q, q\rightarrow r, r \lor \neg s\}$, proposición: $(p \land q)\rightarrow r$
+	\end{enumerate}
+\end{multicols}
+
+\textbf{Mostrar que a) 	$\Gamma=\{p\land q, r\lor q\} \vDash p \land q\lor r$.}\\
+Suponemos la veracidad de $\mathcal{I}(\Gamma)=1$\\
+Sea $\mathcal{I}$ un modelo $\Gamma$. Tenemos que demostrar que $\mathcal{I}((p \land q)\lor r)=1$.\\
+Como $\mathcal{I}(p\lor q)=1$, entonces $\mathcal{I}(p)=1=\mathcal{I}(q)$ y para $\mathcal{I}(r\lor q)$ tenemos dos casos\\
+\indent i) Cuando $\mathcal{I}(r)=1$, y como $\mathcal{I}(q)=1$ entonces $\mathcal{I}(q\lor r)=1$ siempre, por lo que $\mathcal{I}(p \land q\lor r)=1$ dodo que $\mathcal{I}(p \land q)=1$ y $\mathcal{I}(r)=1$\\
+\indent ii) Por otro lado, Cuando $\mathcal{I}(r)=0$, como $\mathcal{I}(q)=1$, entonces $\mathcal{I}(q\lor r)=1$\\
+$\therefore \mathcal{I}((p\land q)\lor r)=1$\\
+\indent
+$\therefore$ se concluye que es onsecuencia lógica. $\blacksquare$
+\vspace{10px}
+
+\textbf{Mostrar que b)} $\Gamma = \{p\leftrightarrow q,p\rightarrow \neg r,r\rightarrow s\} \vDash q\rightarrow s$\\
+Suponemos la veracidad de $\mathcal{I}(\Gamma)=1$\\
+Tenemos dos casos:\\
+ \indent i) Si $\mathcal{I}(q)=0$ entonces $\mathcal{I}(q\rightarrow s)=1$ por lo que es trivial.\\
+\indent ii) Si $\mathcal{I}(q)=1$, entonces $\mathcal{I}(p)=1$ para que sea $\mathcal{I}(p\leftrightarrow q)=1$, por lo que $\mathcal{I}(\neg r)=1$ necesariamente, pues $\mathcal{I}(p\rightarrow \neg r)=1$, entonces $\mathcal{I}(r)=0$, quiere decir que $\mathcal{I}(r\rightarrow s)=1$, en particular para $\mathcal{I}(s)=0$, por lo que, si $\mathcal{I}(q)=1$, como lo definimos anteriormente y si $\mathcal{I}(s)=0$, quiere decir que $\mathcal{I}(r\rightarrow s)=0$\\
+$\therefore$ No es consecuencia lógica $\blacksquare$
+\vspace{10px}
+
+\textbf{Mostrar que c) $\Gamma = \{p\leftrightarrow q,p\rightarrow \neg r,r\rightarrow s\} \vDash \neg (p\land r)$}\\
+Suponemos la veracidad de $\mathcal{I}(\Gamma)=1$\\
+Tenemos dos casos:\\
+\indent i) Si $\mathcal{I}(p)=0$, entonces $\mathcal{I}(\neg(p\land r))=1$ pues $\mathcal{I}(p\land r)=0$.\\
+\indent ii) Si $\mathcal{I}(p)=1$ como $\mathcal{I}(p \leftrightarrow q)=1$ entonces $\mathcal{I}(q)=1$, esto quiere decir que, como $\mathcal{I}(q\rightarrow \neg r)=1$, tiene que pasar que $\mathcal{I}(\neg r)=1$, por lo que $\mathcal{I}(r)=0$.\\
+Esto quiere decir que $\mathcal{I}(p\land r)=0$ y $\mathcal{I}(\neg (p\land r))=1$\\
+$\therefore$ Si es consecuencia lógica.$\blacksquare$
+\vspace{10px}
+
+\textbf{Mostrar que d) $\Gamma = \{p\lor q, q\rightarrow r, \neg r \lor s\}\vDash(p\lor q)\rightarrow s$}\\
+Suponemos la veracidad de $\mathcal{I}(\Gamma)=1$\\
+Tenemos dos casos:\\
+\indent i)Supongamos que $\mathcal{I}(q)=1$, dado que $\mathcal{I}(p\rightarrow r)=1$ quiere decir que $\mathcal{I}(r)=1$, entonces $\mathcal{I}(\neg r)=0$, y como $\mathcal{I}(\neg r\lor s)=1$ tiene que pasar que $\mathcal{I}(s)=1$, dado que suponemos que $\mathcal{I}(p\lor q)=1$ es necesario que $\mathcal{I}(p)=1$ pues $\mathcal{I}(q)=0$ como suposimos anteriormente. $\therefore\mathcal{I}((p\lor q)\rightarrow s)=1$\\
+\indent ii)Supongamos$\mathcal{I}(q)=0$, entonces, en particular, suponemos que $\mathcal{I}(r)=0$, esto significa que $\mathcal{I}(\neg r)=1$, como $\mathcal{I}(\neg r \lor s)=1$ puede pasar que $\mathcal{I}(s)=0$, y dado que $\mathcal{I}(p\lor q)=1$ tiene que pasar que $\mathcal{I}(p)=1$ entonces decimos que $\mathcal{I}((p\lor q)\rightarrow s)=0$ puesto que $\mathcal{I}(p\lor q)=1$ pero $\mathcal{I}(s)=0$\\
+$\therefore$ No es consecuencia lógica. $\blacksquare$
+\vspace{10px}
+
+\textbf{Mostrar que e) $\Gamma = \{p\land q, q\rightarrow r, r \lor \neg s\}\vDash (p \land q)\rightarrow r$}\\
+Suponemos la veracidad de $\mathcal{I}(\Gamma)=1$\\
+Dado que $\mathcal{I}(p\land q)=1$ tiene que pasar que $\mathcal{I}(p)=1=\mathcal{I}(q)$, entonces es necesario que $\mathcal{I}(r)=1$ pues $\mathcal{I}(q\rightarrow r)=1$, quiere decir se cumple 
+$\mathcal{I}(r \lor \neg s)=1$ pues basta que al menos uno sea $1$ para que la proposición se cumpla, lo que quiere decir que $\mathcal{I}((p\land q)\rightarrow r)=1$\\
+$\therefore$ Es consecuencia lógica. $\blacksquare$
