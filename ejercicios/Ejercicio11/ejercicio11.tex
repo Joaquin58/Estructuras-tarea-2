@@ -17,15 +17,15 @@ Demostrar que dada una fórmula de lógica proposicional $E$, la altura es menor
     Queremos probar que para las fórmulas $E = E_1 \land E_2$, $E_1 \lor E_2$, $E_1 \rightarrow E_2$, o $\neg E_1$, también se cumple la desigualdad.
 
     \begin{itemize}
-        \item Caso $E = E_1 \land E_2$, $E_1 \lor E_2$, o $E_1 \rightarrow E_2$:
+        \item Caso $E = E_1 \diamondsuit E_2$:
         \begin{itemize}
-            \item Longitud:
+            \item[]  Longitud:
             \[
-            \text{len}(E_1 \land E_2) = \text{len}(E_1) + \text{len}(E_2) + 1
+            \text{len}(E_1 \diamondsuit E_2) = \text{len}(E_1) + \text{len}(E_2) + 1
             \]
-            \item Altura:
+            \item[] Altura:
             \[
-            h(E_1 \land E_2) = 1 + \max(h(E_1), h(E_2))
+            h(E_1 \diamondsuit E_2) = 1 + \max(h(E_1), h(E_2))
             \]
             Por la hipótesis de inducción, tenemos que $h(E_1) \leq \text{len}(E_1)$ y $h(E_2) \leq \text{len}(E_2)$. Entonces:
             \[
@@ -38,11 +38,11 @@ Demostrar que dada una fórmula de lógica proposicional $E$, la altura es menor
         \end{itemize}
         \item Caso $E = \neg E_1$:
         \begin{itemize}
-            \item Longitud:
+            \item []Longitud:
             \[
             \text{len}(\neg E_1) = \text{len}(E_1) + 1
             \]
-            \item Altura:
+            \item[] Altura:
             \[
             h(\neg E_1) = h(E_1) + 1
             \]
