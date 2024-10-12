@@ -1,0 +1,61 @@
+\chapter*{Ejercicio 11}
+\section*{Ejercicio 11}
+
+Demostrar que dada una fórmula de lógica proposicional $E$, la altura es menor o igual que la longitud. Esto es $h(E) \leq \text{len}(E)$. \\
+
+\begin{enumerate}
+    \item[1)] Caso base: consideramos que $\text{len}(E) = 1$ y altura $h(E) = 1$, entonces este caso hace que se cumpla que
+    \[
+    h(E) \leq \text{len}(E)
+    \]
+    por lo tanto, es correcto.
+
+    \item[2)] Hipótesis de inducción: suponemos que para $E_1$ y $E_2$ se cumple que
+    \[
+    h(E_1) \leq \text{len}(E_1) \quad \text{y} \quad h(E_2) \leq \text{len}(E_2).
+    \]
+    Queremos probar que para las fórmulas $E = E_1 \land E_2$, $E_1 \lor E_2$, $E_1 \rightarrow E_2$, o $\neg E_1$, también se cumple la desigualdad.
+
+    \begin{itemize}
+        \item Caso $E = E_1 \land E_2$, $E_1 \lor E_2$, o $E_1 \rightarrow E_2$:
+        \begin{itemize}
+            \item Longitud:
+            \[
+            \text{len}(E_1 \land E_2) = \text{len}(E_1) + \text{len}(E_2) + 1
+            \]
+            \item Altura:
+            \[
+            h(E_1 \land E_2) = 1 + \max(h(E_1), h(E_2))
+            \]
+            Por la hipótesis de inducción, tenemos que $h(E_1) \leq \text{len}(E_1)$ y $h(E_2) \leq \text{len}(E_2)$. Entonces:
+            \[
+            h(E_1 \land E_2) = 1 + \max(h(E_1), h(E_2)) \leq 1 + \max(\text{len}(E_1), \text{len}(E_2)) \leq \text{len}(E_1) + \text{len}(E_2) + 1
+            \]
+            \[
+            = \text{len}(E_1 \land E_2)
+            \]
+            Por lo tanto, se cumple que $h(E_1 \land E_2) \leq \text{len}(E_1 \land E_2)$.
+        \end{itemize}
+        \item Caso $E = \neg E_1$:
+        \begin{itemize}
+            \item Longitud:
+            \[
+            \text{len}(\neg E_1) = \text{len}(E_1) + 1
+            \]
+            \item Altura:
+            \[
+            h(\neg E_1) = h(E_1) + 1
+            \]
+            Por la hipótesis de inducción, sabemos que $h(E_1) \leq \text{len}(E_1)$, entonces se cumple que
+            \[
+            h(\neg E_1) = h(E_1) + 1 \leq \text{len}(E_1) + 1 = \text{len}(\neg E_1)
+            \]
+            Así, se cumple que $h(\neg E_1) \leq \text{len}(\neg E_1)$.
+        \end{itemize}
+    \end{itemize}
+\end{enumerate}
+
+Conclusión: por inducción, sabemos que para una fórmula proposicional $E$, se cumple que
+\[
+h(E) \leq \text{len}(E)
+\]
