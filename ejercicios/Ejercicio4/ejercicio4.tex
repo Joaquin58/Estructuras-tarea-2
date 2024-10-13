@@ -1,0 +1,112 @@
+\chapter*{Ejercicio 4}
+\section*{Ejercicio 4}
+
+\textbf{4.-} Utilizar el algoritmo de analisis de proposiciones sobre las siguientes fórmulas. Dibuja los arboles binarios resultantes. Señalar si el algoritmo acepta o no la fórmula: \newline 
+\begin{center}
+\begin{enumerate}
+\renewcommand{\theenumi}{\alph{enumi}} %Letras minúsculas 
+    \item $(p \land q)\lor r) \rightarrow ( p \land s)$
+    \item $(p \rightarrow q) \neg \land r$
+    \item $ \neg (p \rightarrow q) \rightarrow (q \lor \neg r)$
+    \item $\neg p \land \neg q \lor r$
+    \item $(\neg a \rightarrow (b \land \neg c)) \leftrightarrow \neg d $
+\end{enumerate}
+\end{center}
+
+%Primero recordemos el algoritmo ANALYSIS(E): (Pseudocódigo)\\
+%\newline
+
+\textbf{Para a)}
+\[
+((p \land q)\lor r) \rightarrow ( p \land s)
+\]  \newline
+El algoritmo si acepta la fórmula y genera el siguiente árbol binario: \newline
+
+\begin{center}
+\[
+\begin{array}{c}
+\rightarrow \\
+/ \quad \ \backslash \\
+\lor \quad  \quad  \land \\
+/ \ \backslash \quad / \ \backslash \\
+\land \quad r \quad p \quad s \\
+/ \ \backslash \quad \quad \quad \quad \quad\\
+p \quad q \quad \quad \quad \quad \quad  \\
+\end{array}
+\]
+\end{center}\\
+
+
+\textbf{Para b)}
+\[
+(p \rightarrow q) \neg \land r
+\]  \newline
+El algoritmo NO acepta la fórmula y  NO genera el
+árbol binario esto por no ser $wff$ (well formed formula).\\
+\newline
+El algoritmo regresa fail, puesto que al evaluar rankL(E) lo que recibe es: \\
+$ (p \rightarrow q) \neg$ lo cual es ínvalido puesto que al tener la negación el algoritmo requiere el caso de tipo $\neg (E)$ lo cual no se tiene en este caso.\\
+Regresa $Fail$.\\
+\newline
+
+\textbf{Para c)}
+\[
+\neg (p \rightarrow q) \rightarrow (q \lor \neg r)
+\]  \newline
+El algoritmo si acepta la fórmula y genera el siguiente árbol binario: \newline
+
+\begin{center}
+\[
+\begin{array}{c}
+\rightarrow \\
+/ \quad \backslash \\
+\neg \quad \quad \lor \\
+\quad | \quad \quad / \quad \backslash \\
+\quad \rightarrow \quad  q \quad \neg \\
+/ \quad \backslash \quad \quad \quad | \\
+p \quad \quad q \quad \quad \quad r\\
+\end{array}
+\]
+\end{center}
+
+\textbf{Para d)}
+\[
+\neg p \land \neg q \lor r
+\]  \newline
+El algoritmo si acepta la fórmula y genera el siguiente árbol binario: \newline
+
+\begin{center}
+\[
+\begin{array}{c}
+\land \\
+/ \quad \backslash \\
+\neg \quad \quad \lor \\
+\quad | \quad \quad / \quad \backslash \\
+\quad p \quad \quad  \neg \quad r \\
+\quad \quad \quad | \quad \\
+\quad \quad \quad q \quad \\
+\end{array}
+\]
+\end{center}
+
+\textbf{Para e)}
+\[
+(\neg a \rightarrow (b \land \neg c)) \leftrightarrow \neg d
+\]  \newline
+El algoritmo si acepta la fórmula y genera el siguiente árbol binario: \newline
+
+\begin{center}
+\[
+\begin{array}{c}
+\leftrightarrow \\
+/ \quad \backslash \\
+\rightarrow \quad \quad \neg \\
+/ \quad \backslash \quad \quad | \\
+\neg \quad \land \quad \quad d \\
+| \quad / \quad \backslash \quad \quad  \\
+a \quad b \quad \neg \quad \quad \\
+\quad | \\
+\quad c \\
+\end{array}
+\]
+\end{center}

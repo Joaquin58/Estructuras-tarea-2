@@ -1,0 +1,25 @@
+\chapter*{Ejercicio 10}
+\section*{Ejercicio 10}
+
+\textbf{10.} Probar que el operador de disyuncion exclusiva (XOR) $p \veebar q$ es equivalente a $\neg (p \land q) \land (p \lor q)$.\\
+\newline
+(Proposiciones equivalentes). Decimos que dos formulas proposicionales $p$ y $q$ son equivalentes si y solo si en todos sus posibles estados tienen el mismo valor de verdad.
+Por lo tanto para probar la equivalencia de $p \veebar q$ y $\neg (p \land q) \land (p \lor q)$ generaremos su tabla de verdad. \\
+\newline
+\[
+\begin{array}{|c|c|c|c|c|c|c|}
+\hline
+p & q & p \land q & p \lor q & \neg (p \land a) & \neg (p \land q) \land (p \lor q) & p \veebar q \\
+\hline
+0 & 0 & 0 & 0 & 1 & 0 & 0 \\
+\hline
+0 & 1 & 0 & 1 & 1 & 1 & 1 \\
+\hline
+1 & 0 & 0 & 1 & 1 & 1 & 1 \\
+\hline
+1 & 1 & 1 & 1 & 0 & 0 & 0 \\
+\hline
+\end{array}
+\]
+
+Dado este resultado podemos ver que los valores de $\neg (p \land q) \land (p \lor q)$ y $p \veebar q$ son iguales en todos sus posibles estados. Por lo tanto son proposiciones equivalentes.
