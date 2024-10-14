@@ -1,0 +1,49 @@
+\chapter*{Ejercicio 5}
+% \section*{Ejercicio 5}
+
+\textbf{5.-} Demostrar que el algoritmo de analisis ANALYSIS(E) de expresiones proposicionales es completo, cuando la expresion tiene longitud finita. \\
+\newline
+\begin{center}
+    Demostracion sobre los pasos del algoritmo
+\end{center}
+
+Despúes de haver visto el pseudocódigo del algoritmo, veremos el algoritmo en casos: \\
+\begin{align*}
+ANALYSIS(E) = \begin{cases}
+    Tree (void,E,void)  & \text{si } E=\text{prop. atómica}. \\
+    Tree (void,\neg, ANALISIS(E) & \text{si } E=\neg E \\
+    Tree (ANALYSIS(rankL(E)),\diamondsuit,ANALYSIS(rankR(E)) & \text{si } E=E \diamondsuit E \\
+\end{cases}
+\end{align*}
+\newline
+\textbf{1) CASO BASE:}\\
+\newline
+Para E = prop. atómica (var p,q... o constante $\bot$ o $\top$)
+Regresa $tree (void,E,void)$, si se cumple el algoritmo el regresa el árbol de E. \\
+\newline
+
+\textbf{2) HIPOTESIS DE INDUCCIÓN:}\\
+\newline
+Sean A y B proposiciones con las longitudes de A y B menores que $n$\\
+\begin{itemize}
+    \item ANALYSIS($A$) regresa el árbol sintáctico de A (se cumple para A).
+    \item ANALYSIS($B$) regresa el árbol sintáctico de B (se cumple para B).
+    %\item ANALYSIS($\neg A$) regresa el árbol sintáctico de $\neg A$ (se cumple para la negación).
+    %\item ANALYSIS($A \diamondsuit B$) regresa el árbol sintáctico de $A \diamondsuit B$ (se cumple para operadores binarios).
+\end{itemize}
+
+\textbf{3) PASO INDUCTIVO:}\\
+\newline
+Por Demostrar para: ANALYSIS(E) es completo cuando E es de longitud $n$. \\
+Tenemos dos casos, el caso de la negación y el caso con un operador binario:\\
+\begin{itemize}
+    \item Si $E=\neg A$, en esta situación caemos en el segundo caso de nuestro algoritmo\\
+    Por lo tanto se debe aplicar $\neg ANALYSIS(A)$, y por \textbf{H.I.} sabemos que $ANALYSIS(A)$ se cumple. Así podemos decir que el algoritmo se cumple también para este caso.
+    \item Si $E = A \diamondsuit B$, en esta situación se presenta el tercer caso definido por nuestro algoritmo\\
+    Por lo tanto como se generará, \\ $Tree(ANALYSIS(rankL(E)),\diamondsuit,Tree(ANALYSIS(rankR(E)))$, por la función MainOP sabemos que $rankL(E)=A$ y $rankR(E)=B$, así tenemos $Tree(ANALYSIS(A),\diamondsuit,Tree(ANALYSIS(B))$, por \textbf{H.I.} sabemos que $ANALYSIS(A)$ y $ANALYSIS(B)$ se cumplen. Así podemos decir que el algoritmo también se cumple para este caso.
+\end{itemize}
+Asi vemos como se funciona para E cuando E es compuesta de longitud $n$. \\
+\newline 
+Además se E es $wff$ siempre llegaremos a una E atómica y si E NO es $wff$ el algoritmo regresará $fail$. \\
+\newline
+\textbf{Por lo tanto}, Demostramos que el algoritmo de ANALYSIS(E) es completo cuando la expresión tiene longitud finita.

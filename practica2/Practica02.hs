@@ -91,26 +91,14 @@ num_conectivos (Conj p q) = 1 + (num_conectivos p) + (num_conectivos q)
 num_conectivos (Syss p q) = 1 + (num_conectivos p) + (num_conectivos q)
 
 num_variables :: Lprop -> Int
-num_variables p  = length (collectVars p []) 
--- num_variables PFalse     = 0
--- num_variables (Var n)    = 1
--- num_variables (Neg p)    = num_variables p
--- num_variables (Impl p q) = (num_variables p) + (num_variables q)
--- num_variables (Disy p q) = (num_variables p) + (num_variables q)
--- num_variables (Conj p q) = (num_variables p) + (num_variables q)
--- num_variables (Syss p q) = (num_variables p) + (num_variables q)
+num_variables PFalse     = 0
+num_variables (Var n)    = 1
+num_variables (Neg p)    = num_variables p
+num_variables (Impl p q) = (num_variables p) + (num_variables q)
+num_variables (Disy p q) = (num_variables p) + (num_variables q)
+num_variables (Conj p q) = (num_variables p) + (num_variables q)
+num_variables (Syss p q) = (num_variables p) + (num_variables q)
     
-
-collectVars :: Lprop -> [String] -> [String]
-collectVars PTrue vars = vars
-collectVars PFalse vars = vars
-collectVars (Var n) vars = if n `elem` vars then vars else n : vars
-collectVars (Neg p) vars = collectVars p vars
-collectVars (Impl p q) vars = collectVars p (collectVars q vars)
-collectVars (Disy p q) vars = collectVars p (collectVars q vars)
-collectVars (Conj p q) vars = collectVars p (collectVars q vars)
-collectVars (Syss p q) vars = collectVars p (collectVars q vars)
--- variables repetidos
 
 --Se define la profundidad de una Expresión proposicional donde, el dato de entrada
 --es una expresión proposicional del tipo LProp y devuelve un número entero

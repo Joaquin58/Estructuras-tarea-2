@@ -13,9 +13,10 @@
 \usepackage{multicol}
 \usepackage{enumitem}
 \usepackage{blindtext}
+\usepackage{titlesec}
+\usepackage{fancyhdr}            % Permits header customization. See header section below.
 %\usepackage{schemata}
 % ---definición de los paquetes--
-\usepackage{fancyhdr}            % Permits header customization. See header section below.
 \fancypagestyle{plain}{
 \lhead{}
 \fancyhead[R]{\thepage}
@@ -31,6 +32,12 @@
 Villalobos Juárez Gontran Eliut\\
 Treviño Puebla Héctor Jerome}
 \date{\today}
+% Definir el tamaño del título del capítulo
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries} % Estilo del título
+  {\chaptertitlename\ \thechapter}{1pt}{\Large} % Tamaño del título
+  \titlespacing*{\chapter}{0pt}{-20pt}{20pt} % Ajustar el espaciado
+
 % ---Inicio de la portada
 \begin{document}
 \begin{titlepage}
@@ -78,8 +85,12 @@ Treviño Puebla Héctor Jerome}
 \input{ejercicios/ejercicio1.tex}\newpage
 \input{ejercicios/Ejercicio2/ejercicio2.tex}\newpage
 \input{ejercicios/Ejercicio3/ejercicio3.tex}\newpage
+\input{ejercicios/Ejercicio4/ejercicio4.tex}\newpage
+\input{ejercicios/Ejercicio5/ejercicio5.tex}\newpage
 \input{ejercicios/Ejercicio6/ejercicio6.tex}\newpage
 \input{ejercicios/ejercicio7.tex}\newpage
 \input{ejercicios/ejercicio8.tex}\newpage
+\input{ejercicios/Ejercicio9/ejercicio9.tex}\newpage
+\input{ejercicios/Ejercicio10/ejercicio10.tex}\newpage
 \input{ejercicios/Ejercicio11/ejercicio11.tex}
 \end{document}
