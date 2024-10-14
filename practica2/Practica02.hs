@@ -1,3 +1,9 @@
+-- UNIVERSIDAD NACIONAL AUTÓNOMA DE MEXICO
+-- PRÁCTICA 02: Lógica Proposicional
+-- Ramírez Mendoza Joaquín Rodrigo
+-- Treviño Puebla Héctor Jerome
+-- Villalobos Juárez Gontran Eliut
+
 module Practica02 where 
 
 data Lprop = PTrue | PFalse | Var Nombre | Neg Lprop 
@@ -17,23 +23,6 @@ instance Show Lprop where
     show (Impl p q) = "(" ++ show p ++ "->"  ++  show q ++ ")"
     show (Syss p q) = "(" ++ show p ++ "<->" ++  show q ++ ")"
 
--- instance Show Lprop where
---     show = showWithoutParens
-
--- showWithoutParens :: Lprop -> String
--- showWithoutParens PTrue = "True"
--- showWithoutParens PFalse = "False"
--- showWithoutParens (Var p) = p
--- showWithoutParens (Neg p) = "¬" ++ showNeg p
--- showWithoutParens (Conj p q) = showWithoutParens p ++ " ∧ " ++ showWithoutParens q
--- showWithoutParens (Disy p q) = showWithoutParens p ++ " v " ++ showWithoutParens q
--- showWithoutParens (Impl p q) = showWithoutParens p ++ " -> " ++ showWithoutParens q
--- showWithoutParens (Syss p q) = showWithoutParens p ++ " <-> " ++ showWithoutParens q
-
--- showNeg :: Lprop -> String
--- showNeg (Var p) = p
--- showNeg (Neg p) = "¬" ++ showNeg p
--- showNeg expr = "(" ++ showWithoutParens expr ++ ")"
 
 limpia_vars :: Eq a => [a] -> [a]
 limpia_vars [] = []
@@ -63,7 +52,6 @@ deMorgan (Neg PFalse) = PTrue
 deMorgan (Var n) = Var n
 deMorgan (Neg (Conj p q)) = Disy (deMorgan (Neg p)) (deMorgan (Neg q))
 deMorgan (Neg (Disy p q)) = Conj (deMorgan (Neg p)) (deMorgan (Neg q))
--- deMorgan (Neg (Impl p q)) = Conj (deMorgan p) ( deMorgan (Neg q))
 deMorgan (Neg p) = Neg (deMorgan p)
 deMorgan (Conj p q) = Conj (deMorgan p) (deMorgan q)
 deMorgan (Disy p q) = Disy (deMorgan p) (deMorgan q)
@@ -124,6 +112,11 @@ collectVars (Conj p q) vars = collectVars p (collectVars q vars)
 collectVars (Syss p q) vars = collectVars p (collectVars q vars)
 -- variables repetidos
 
+--Se define la profundidad de una Expresión proposicional donde, el dato de entrada
+--es una expresión proposicional del tipo LProp y devuelve un número entero
+--el cual la máxima longitud entre dos ramas sumado 1
+--el caso base son las variables atómicas y las constantes PTrue y PFalse, donde su 
+--profundidad es cero.
 profundidad :: Lprop -> Int
 profundidad PTrue = 0
 profundidad PFalse = 0
@@ -134,22 +127,25 @@ profundidad (Disy p q) = 1 + max (profundidad p) (profundidad q)
 profundidad (Conj p q) = 1 + max (profundidad p) (profundidad q)
 profundidad (Syss p q) = 1 + max (profundidad p) (profundidad q)
 
+{-
+La interpretación de una expresión donde se reciben dos argumentos, un LProp y un arreglo que contiene
+la asignación de cada una de las variables para la expresión.
+Devuelve el valor de verdad final de la expresión para la interpretación dada.
+-}
 interpretacion :: Lprop -> Asignacion -> Bool
 interpretacion PTrue  _ = True
 interpretacion PFalse _ = False
-interpretacion (Var p) asignacion =     if interprete p asignacion == True then True else False
-interpretacion (Neg p) asignacion =     if interpretacion p asignacion == True then False else True
+interpretacion (Var p) asignacion    =  if interprete p asignacion == True then True else False
+interpretacion (Neg p) asignacion    =  if interpretacion p asignacion == True then False else True
 interpretacion (Conj p q) asignacion =  if interpretacion p asignacion == True && interpretacion q asignacion == True then True else False
 interpretacion (Disy p q) asignacion =  if interpretacion p asignacion == True || interpretacion q asignacion == True then True else False
 interpretacion (Impl p q) asignacion =  if interpretacion p asignacion == True && interpretacion q asignacion == False then False else True
 interpretacion (Syss p q) asignacion =  if interpretacion p asignacion == interpretacion q asignacion then True else False
-
+{-
+Función auxiliar de la función interpretación el cual evalúa el valor de verdad de la variable
+a la que se le asignó.
+Regresa el valor de verdad para la variable en cuestión.
+-}
 interprete :: Nombre -> Asignacion -> Bool
 interprete _ [] = error "error, no se asignaron valores"
 interprete p ((x, var):xs) = if p == x then var else interprete p xs
-
-ident :: Lprop -> Lprop
-ident PTrue = PTrue
-ident PFalse = PFalse
-ident (Var n) = (Var n)
-
