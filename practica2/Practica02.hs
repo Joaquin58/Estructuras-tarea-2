@@ -1,4 +1,9 @@
 module Practica02 where 
+-- UNIVERSIDAD NACIONAL AUTÓNOMA DE MEXICO
+-- PRÁCTICA 02: Lógica proposicional.
+-- Ramírez Mendoza Joaquín Rodrigo
+-- Treviño Puebla Héctor Jerome
+-- Villalobos Juárez Gontran Eliut
 
 data Lprop = PTrue | PFalse | Var Nombre | Neg Lprop 
             | Conj Lprop Lprop | Disy Lprop Lprop | Impl Lprop Lprop 
@@ -17,23 +22,6 @@ instance Show Lprop where
     show (Impl p q) = "(" ++ show p ++ "->"  ++  show q ++ ")"
     show (Syss p q) = "(" ++ show p ++ "<->" ++  show q ++ ")"
 
--- instance Show Lprop where
---     show = showWithoutParens
-
--- showWithoutParens :: Lprop -> String
--- showWithoutParens PTrue = "True"
--- showWithoutParens PFalse = "False"
--- showWithoutParens (Var p) = p
--- showWithoutParens (Neg p) = "¬" ++ showNeg p
--- showWithoutParens (Conj p q) = showWithoutParens p ++ " ∧ " ++ showWithoutParens q
--- showWithoutParens (Disy p q) = showWithoutParens p ++ " v " ++ showWithoutParens q
--- showWithoutParens (Impl p q) = showWithoutParens p ++ " -> " ++ showWithoutParens q
--- showWithoutParens (Syss p q) = showWithoutParens p ++ " <-> " ++ showWithoutParens q
-
--- showNeg :: Lprop -> String
--- showNeg (Var p) = p
--- showNeg (Neg p) = "¬" ++ showNeg p
--- showNeg expr = "(" ++ showWithoutParens expr ++ ")"
 
 limpia_vars :: Eq a => [a] -> [a]
 limpia_vars [] = []
@@ -63,7 +51,6 @@ deMorgan (Neg PFalse) = PTrue
 deMorgan (Var n) = Var n
 deMorgan (Neg (Conj p q)) = Disy (deMorgan (Neg p)) (deMorgan (Neg q))
 deMorgan (Neg (Disy p q)) = Conj (deMorgan (Neg p)) (deMorgan (Neg q))
--- deMorgan (Neg (Impl p q)) = Conj (deMorgan p) ( deMorgan (Neg q))
 deMorgan (Neg p) = Neg (deMorgan p)
 deMorgan (Conj p q) = Conj (deMorgan p) (deMorgan q)
 deMorgan (Disy p q) = Disy (deMorgan p) (deMorgan q)
@@ -103,27 +90,15 @@ num_conectivos (Conj p q) = 1 + (num_conectivos p) + (num_conectivos q)
 num_conectivos (Syss p q) = 1 + (num_conectivos p) + (num_conectivos q)
 
 num_variables :: Lprop -> Int
-num_variables p  = length (collectVars p []) 
--- num_variables PFalse     = 0
--- num_variables (Var n)    = 1
--- num_variables (Neg p)    = num_variables p
--- num_variables (Impl p q) = (num_variables p) + (num_variables q)
--- num_variables (Disy p q) = (num_variables p) + (num_variables q)
--- num_variables (Conj p q) = (num_variables p) + (num_variables q)
--- num_variables (Syss p q) = (num_variables p) + (num_variables q)
+-- num_variables p  = length (collectVars p []) 
+num_variables PFalse     = 0
+num_variables (Var n)    = 1
+num_variables (Neg p)    = num_variables p
+num_variables (Impl p q) = (num_variables p) + (num_variables q)
+num_variables (Disy p q) = (num_variables p) + (num_variables q)
+num_variables (Conj p q) = (num_variables p) + (num_variables q)
+num_variables (Syss p q) = (num_variables p) + (num_variables q)
     
-
-collectVars :: Lprop -> [String] -> [String]
-collectVars PTrue vars = vars
-collectVars PFalse vars = vars
-collectVars (Var n) vars = if n `elem` vars then vars else n : vars
-collectVars (Neg p) vars = collectVars p vars
-collectVars (Impl p q) vars = collectVars p (collectVars q vars)
-collectVars (Disy p q) vars = collectVars p (collectVars q vars)
-collectVars (Conj p q) vars = collectVars p (collectVars q vars)
-collectVars (Syss p q) vars = collectVars p (collectVars q vars)
--- variables repetidos
-
 profundidad :: Lprop -> Int
 profundidad PTrue = 0
 profundidad PFalse = 0
@@ -147,9 +122,3 @@ interpretacion (Syss p q) asignacion =  if interpretacion p asignacion == interp
 interprete :: Nombre -> Asignacion -> Bool
 interprete _ [] = error "error, no se asignaron valores"
 interprete p ((x, var):xs) = if p == x then var else interprete p xs
-
-ident :: Lprop -> Lprop
-ident PTrue = PTrue
-ident PFalse = PFalse
-ident (Var n) = (Var n)
-
