@@ -24,6 +24,31 @@ instance Show Lprop where
     show (Syss p q) = "(" ++ show p ++ "<->" ++  show q ++ ")"
 
 
+--Función para eliminar los elementos repetidos de una lista
+--Separa la lista en tope y el resto de la lista, si el elemento x
+--se encuentra en el resto se queda con el resto, si no se queda con ambos
+auxiliar_repetidos :: [String] -> [String]
+auxiliar_repetidos [] = []
+auxiliar_repetidos (x:xs) =
+    if x `elem` xs
+    then auxiliar_repetidos xs  
+    else x : auxiliar_repetidos xs  
+
+--Función que da las variables de una proposición logica
+--Hace uso de la función auxiliar_repetidos para eliminar las variables repetidas
+vars :: Lprop -> [String]
+vars PTrue = []
+vars PFalse = []
+vars (Var n) = [n]
+vars (Neg p) = auxiliar_repetidos (vars p) 
+vars (Conj p q) = auxiliar_repetidos (vars p ++ vars q)
+vars (Disy p q) = auxiliar_repetidos (vars p ++ vars q)
+vars (Impl p q) = auxiliar_repetidos (vars p ++ vars q)
+vars (Syss p q) = auxiliar_repetidos (vars p ++ vars q)
+
+
+-- De JoaquinPro
+{-
 limpia_vars :: Eq a => [a] -> [a]
 limpia_vars [] = []
 limpia_vars (x:xs) = x : limpia_vars (quita_repetidos x xs)
@@ -42,6 +67,7 @@ vars (Conj p q) = limpia_vars (vars p ++ vars q)
 vars (Disy p q) = limpia_vars (vars p ++ vars q)
 vars (Impl p q) = limpia_vars (vars p ++ vars q)
 vars (Syss p q) = limpia_vars (vars p ++ vars q)
+-}
 
 -- DeMorgan
 deMorgan :: Lprop -> Lprop
@@ -58,7 +84,25 @@ deMorgan (Disy p q) = Disy (deMorgan p) (deMorgan q)
 deMorgan (Impl p q) = Impl (deMorgan p) (deMorgan q)
 deMorgan (Syss p q) = Syss (deMorgan p) (deMorgan q)
 
+--Función que genera las  equivalencias lógicas de la Implicación y de la 
+--doble implicación. Genera la equvalencia de la siguiente forma:
+-- p-> q = -p v q
+-- p <-> q = (-p v q)^(-q v p)
+--Se llama recusivamente en todos los casos.
+equiv_op :: Lprop -> Lprop
+equiv_op PTrue = PTrue
+equiv_op PFalse = PFalse
+equiv_op (Var n) = (Var n)
+equiv_op (Impl p q) = Disy (Neg (equiv_op p)) (equiv_op q)
+equiv_op (Neg p) = Neg (equiv_op p)
+equiv_op (Conj p q) = Conj (equiv_op p) (equiv_op q)
+equiv_op (Disy p q) = Disy (equiv_op p) (equiv_op q)
+equiv_op (Syss p q) = Conj (Disy (Neg (equiv_op p)) (equiv_op q)) (Disy (Neg (equiv_op q)) (equiv_op p))
 
+
+
+--De Joaquín Pro
+{-
 equiv_op :: Lprop -> Lprop
 equiv_op PTrue = PTrue
 equiv_op PFalse = PFalse
@@ -68,6 +112,7 @@ equiv_op (Disy p q) = Disy (equiv_op p) (equiv_op q)
 equiv_op (Conj p q) = Conj (equiv_op p) (equiv_op q)
 equiv_op (Neg p) = Neg (equiv_op p)
 equiv_op (Syss p q) = Conj (Disy (Neg (equiv_op p)) (equiv_op q)) (Disy (Neg (equiv_op q)) (equiv_op p))
+-}
 
 dobleNeg :: Lprop -> Lprop
 dobleNeg PTrue = PTrue
@@ -80,6 +125,22 @@ dobleNeg (Disy p q) = Disy (dobleNeg p) (dobleNeg q)
 dobleNeg (Conj p q) = Conj (dobleNeg p) (dobleNeg q)
 dobleNeg (Syss p q) = Syss (dobleNeg p) (dobleNeg q)
 
+--Función recursiva que cuenta el número de conectivos lógicos
+--de una proposición. El caso base es con las variables y las contantes
+-- Negación solo se agrega 1 a los conectivos de la Proposición dada
+-- Operadores Binarios se agrega 1 a ambas proposiciones dadas
+num_conectivos :: Lprop -> Integer
+num_conectivos PTrue = 0
+num_conectivos PFalse = 0
+num_conectivos (Var n) = 0
+num_conectivos (Neg p) = 1 + num_conectivos p
+num_conectivos (Conj p q) = 1 + num_conectivos p + num_conectivos q
+num_conectivos (Disy p q) = 1 + num_conectivos p + num_conectivos q
+num_conectivos (Impl p q) = 1 + num_conectivos p + num_conectivos q
+num_conectivos (Syss p q) = 1 + num_conectivos p + num_conectivos q
+
+--De Joaquín Pro
+{-
 num_conectivos :: Lprop -> Int
 num_conectivos PTrue = 0
 num_conectivos PFalse = 0
@@ -89,6 +150,7 @@ num_conectivos (Impl p q) = 1 + (num_conectivos p) + (num_conectivos q)
 num_conectivos (Disy p q) = 1 + (num_conectivos p) + (num_conectivos q)
 num_conectivos (Conj p q) = 1 + (num_conectivos p) + (num_conectivos q)
 num_conectivos (Syss p q) = 1 + (num_conectivos p) + (num_conectivos q)
+-}
 
 num_variables :: Lprop -> Int
 num_variables PFalse     = 0
