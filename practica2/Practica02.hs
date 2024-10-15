@@ -102,6 +102,7 @@ num_conectivos (Impl p q) = 1 + num_conectivos p + num_conectivos q
 num_conectivos (Syss p q) = 1 + num_conectivos p + num_conectivos q
 
 num_variables :: Lprop -> Int
+num_variables PTrue     = 0
 num_variables PFalse     = 0
 num_variables (Var n)    = 1
 num_variables (Neg p)    = num_variables p
