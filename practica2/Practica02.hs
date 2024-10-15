@@ -47,12 +47,17 @@ vars (Impl p q) = auxiliar_repetidos (vars p ++ vars q)
 vars (Syss p q) = auxiliar_repetidos (vars p ++ vars q)
 
 -- DeMorgan
+{-
+Definición de a función recursiva que aplica las leyes de deMorgan en la expresión dada
+donde ¬(p∧q) = (¬pv¬q) y ¬(pvq) =(¬p∧¬q) aplicando demorgan tambien en las expresiones 
+p y q
+-}
 deMorgan :: Lprop -> Lprop
 deMorgan PTrue = PTrue
 deMorgan PFalse = PFalse
+deMorgan (Var n) = Var n
 deMorgan (Neg PTrue) = PFalse
 deMorgan (Neg PFalse) = PTrue
-deMorgan (Var n) = Var n
 deMorgan (Neg (Conj p q)) = Disy (deMorgan (Neg p)) (deMorgan (Neg q))
 deMorgan (Neg (Disy p q)) = Conj (deMorgan (Neg p)) (deMorgan (Neg q))
 deMorgan (Neg p) = Neg (deMorgan p)
@@ -76,11 +81,16 @@ equiv_op (Conj p q) = Conj (equiv_op p) (equiv_op q)
 equiv_op (Disy p q) = Disy (equiv_op p) (equiv_op q)
 equiv_op (Syss p q) = Conj (Disy (Neg (equiv_op p)) (equiv_op q)) (Disy (Neg (equiv_op q)) (equiv_op p))
 
+
+{-
+Recibe un  LProp tal que, si tiene una doble negación, este la elimina como resultado
+de la equivalencia de la dobel negación y devuelve este nuevo calor en el retorno.
+-}
 dobleNeg :: Lprop -> Lprop
 dobleNeg PTrue = PTrue
 dobleNeg PFalse = PFalse
 dobleNeg (Var n) = Var n
-dobleNeg (Neg (Neg p)) = dobleNeg p
+dobleNeg (Neg (Neg p)) = dobleNeg p -- Elimina la doble negación
 dobleNeg (Neg p) = Neg (dobleNeg p)
 dobleNeg (Impl p q) = Impl  (dobleNeg p) (dobleNeg q)
 dobleNeg (Disy p q) = Disy (dobleNeg p) (dobleNeg q)
@@ -101,15 +111,22 @@ num_conectivos (Disy p q) = 1 + num_conectivos p + num_conectivos q
 num_conectivos (Impl p q) = 1 + num_conectivos p + num_conectivos q
 num_conectivos (Syss p q) = 1 + num_conectivos p + num_conectivos q
 
+{-
+Se define la función recursiva que cuenta el número de variables de una expresión dada
+utilzia la función vars que definimos al principio que recolecta las variables
+en un string y solo calculamos el largo de el arreglo para saber el número de variables
+de la expresión dada. Utiliza la función auxiliar Longitud
+-}
 num_variables :: Lprop -> Int
-num_variables PTrue     = 0
-num_variables PFalse     = 0
-num_variables (Var n)    = 1
-num_variables (Neg p)    = num_variables p
-num_variables (Impl p q) = (num_variables p) + (num_variables q)
-num_variables (Disy p q) = (num_variables p) + (num_variables q)
-num_variables (Conj p q) = (num_variables p) + (num_variables q)
-num_variables (Syss p q) = (num_variables p) + (num_variables q)
+num_variables  p = longitud (vars p)
+
+{-
+función auxiliar que ayuda a contar los elementos de un arreglo de proposiciones
+-}
+longitud :: [a] -> Int
+longitud [] = 0
+longitud (_:xs) = 1 + longitud xs
+
     
 
 --Se define la profundidad de una Expresión proposicional donde, el dato de entrada
