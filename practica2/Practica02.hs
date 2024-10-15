@@ -46,29 +46,6 @@ vars (Disy p q) = auxiliar_repetidos (vars p ++ vars q)
 vars (Impl p q) = auxiliar_repetidos (vars p ++ vars q)
 vars (Syss p q) = auxiliar_repetidos (vars p ++ vars q)
 
-
--- De JoaquinPro
-{-
-limpia_vars :: Eq a => [a] -> [a]
-limpia_vars [] = []
-limpia_vars (x:xs) = x : limpia_vars (quita_repetidos x xs)
-    where
-        quita_repetidos _ [] = []
-        quita_repetidos y (z:zs)
-         | y == z = quita_repetidos y zs
-         | otherwise = z : quita_repetidos y zs
-
-vars :: Lprop -> [Nombre]
-vars PTrue = []
-vars PFalse = []
-vars (Var n) = [n]
-vars (Neg p) = vars p
-vars (Conj p q) = limpia_vars (vars p ++ vars q)
-vars (Disy p q) = limpia_vars (vars p ++ vars q)
-vars (Impl p q) = limpia_vars (vars p ++ vars q)
-vars (Syss p q) = limpia_vars (vars p ++ vars q)
--}
-
 -- DeMorgan
 deMorgan :: Lprop -> Lprop
 deMorgan PTrue = PTrue
@@ -99,21 +76,6 @@ equiv_op (Conj p q) = Conj (equiv_op p) (equiv_op q)
 equiv_op (Disy p q) = Disy (equiv_op p) (equiv_op q)
 equiv_op (Syss p q) = Conj (Disy (Neg (equiv_op p)) (equiv_op q)) (Disy (Neg (equiv_op q)) (equiv_op p))
 
-
-
---De Joaquín Pro
-{-
-equiv_op :: Lprop -> Lprop
-equiv_op PTrue = PTrue
-equiv_op PFalse = PFalse
-equiv_op (Var n) = Var n
-equiv_op (Impl p q) = Disy (Neg (equiv_op p)) (equiv_op q)
-equiv_op (Disy p q) = Disy (equiv_op p) (equiv_op q)
-equiv_op (Conj p q) = Conj (equiv_op p) (equiv_op q)
-equiv_op (Neg p) = Neg (equiv_op p)
-equiv_op (Syss p q) = Conj (Disy (Neg (equiv_op p)) (equiv_op q)) (Disy (Neg (equiv_op q)) (equiv_op p))
--}
-
 dobleNeg :: Lprop -> Lprop
 dobleNeg PTrue = PTrue
 dobleNeg PFalse = PFalse
@@ -138,19 +100,6 @@ num_conectivos (Conj p q) = 1 + num_conectivos p + num_conectivos q
 num_conectivos (Disy p q) = 1 + num_conectivos p + num_conectivos q
 num_conectivos (Impl p q) = 1 + num_conectivos p + num_conectivos q
 num_conectivos (Syss p q) = 1 + num_conectivos p + num_conectivos q
-
---De Joaquín Pro
-{-
-num_conectivos :: Lprop -> Int
-num_conectivos PTrue = 0
-num_conectivos PFalse = 0
-num_conectivos (Var n) = 0
-num_conectivos (Neg p) = 1 + num_conectivos p
-num_conectivos (Impl p q) = 1 + (num_conectivos p) + (num_conectivos q)
-num_conectivos (Disy p q) = 1 + (num_conectivos p) + (num_conectivos q)
-num_conectivos (Conj p q) = 1 + (num_conectivos p) + (num_conectivos q)
-num_conectivos (Syss p q) = 1 + (num_conectivos p) + (num_conectivos q)
--}
 
 num_variables :: Lprop -> Int
 num_variables PFalse     = 0
